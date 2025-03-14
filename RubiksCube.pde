@@ -2,8 +2,18 @@ import peasy.*;
 
 PeasyCam cam;
 
+int UPP = 0;
+int DWN = 1;
+int RGT = 2;
+int LFT = 3;
+int FRT = 4;
+int BCK = 5;
+
+color[] colors = {#FFFFFF, #FFFF00, #FFA500, #FF0000, #00FF00, #0000FF};
+
 int dim = 3;
 Box[][][] cube = new Box[dim][dim][dim];
+
 void setup() {
   size(600, 600, P3D);
   cam = new PeasyCam(this, 400);
