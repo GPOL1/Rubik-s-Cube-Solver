@@ -1,60 +1,18 @@
 class Box {
-  PVector pos;
-  float len;
+  PMatrix3D matrix;
   
-  Box(float x, float y, float z, float len_) {
-    pos = new PVector(x,y,z);
-    len = len_;
+  Box(PMatrix3D m) {
+    matrix = m;
   }
   
   void show() {
     fill(255);
     stroke(0);
-    strokeWeight(8);
+    strokeWeight(0.1);
     pushMatrix();
-    translate(pos.x, pos.y, pos.z);
-    
-    beginShape(QUADS);
-    
-    float r = len/2;
+    applyMatrix(matrix);
 
-    fill(colors[UPP]);
-    vertex(-r, -r, r);
-    vertex(r, -r, r);
-    vertex(r, r, r);
-    vertex(-r, r, r);
-
-    fill(colors[DWN]);
-    vertex(-r, -r, -r);
-    vertex(r, -r, -r);
-    vertex(r, r, -r);
-    vertex(-r, r, -r);
-
-    fill(colors[RGT]);
-    vertex(r, r, r);
-    vertex(-r, r, r);
-    vertex(-r, r, -r);
-    vertex(r, r, -r);
-
-    fill(colors[LFT]);
-    vertex(r, -r, r);
-    vertex(-r, -r, r);
-    vertex(-r, -r, -r);
-    vertex(r, -r, -r);
-
-    fill(colors[FRT]);
-    vertex(r, r, r);
-    vertex(r, -r, r);
-    vertex(r, -r, -r);
-    vertex(r, r, -r);
-
-    fill(colors[BCK]);
-    vertex(-r, r, r);
-    vertex(-r, -r, r);
-    vertex(-r, -r, -r);
-    vertex(-r, r, -r);
-
-    endShape();
+    box(1);
 
     popMatrix();
   }

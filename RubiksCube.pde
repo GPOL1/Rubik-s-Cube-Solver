@@ -12,21 +12,21 @@ int BCK = 5;
 color[] colors = {#FFFFFF, #FFFF00, #FFA500, #FF0000, #00FF00, #0000FF};
 
 int dim = 3;
-Box[][][] cube = new Box[dim][dim][dim];
+Box[] cube = new Box[dim*dim*dim];
 
 void setup() {
   size(600, 600, P3D);
   cam = new PeasyCam(this, 400);
-  for (int i = 0; i < dim; i++){
-    for (int j = 0; j < dim; j++){
-      for (int k = 0; k < dim; k++){
+  int index = 0;
+  for (int x = -1; x <= 1; x++){
+    for (int y = -1; y <= 1; y++){
+      for (int z = -1; z <= 1; z++){
 
-        float len = 50;
-        float offset = ((dim - 1) * len) * 0.5;
-        float x = len * i - offset;
-        float y = len * j - offset;
-        float z = len * k - offset; 
-        cube[i][j][k] = new Box(x,y,z,len);
+        PMatrix3D matrix = new PMatrix3D();
+        matrix.translate(x,y,z);
+
+        cube[index] = new Box(matrix);
+        index++;
 
       }
     }
@@ -35,13 +35,8 @@ void setup() {
 
 void draw() {
   background(51);
-  for (int i = 0; i < dim; i++){
-    for (int j = 0; j < dim; j++){
-      for (int k = 0; k < dim; k++){
-
-        cube[i][j][k].show();
-
-      }
-    }
+  scale(60);
+  for (int i = 0; i < cube.length; i++){
+    cube[i].show();
   }
 }
