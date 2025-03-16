@@ -25,7 +25,7 @@ void setup() {
         PMatrix3D matrix = new PMatrix3D();
         matrix.translate(x,y,z);
 
-        cube[index] = new Box(matrix);
+        cube[index] = new Box(matrix, x, y, z);
         index++;
 
       }
@@ -33,9 +33,27 @@ void setup() {
   }
 }
 
+void turnZ() {
+  for (int i = 0; i < cube.length; i++){
+    if (cube[i].z == 1){
+      PMatrix2D matrix = new PMatrix2D();
+      matrix.rotate(HALF_PI);
+      matrix.translate(cube[i].x,cube[i].y);
+      cube[i].update(round(matrix.m02),round(matrix.m12),round(cube[i].z));
+    }
+  }
+}
+
+void keyPressed(){
+  if (key == '1'){
+    turnZ();
+  }
+}
+
 void draw() {
   background(51);
   scale(60);
+  cube[2].highlight = true;
   for (int i = 0; i < cube.length; i++){
     cube[i].show();
   }
