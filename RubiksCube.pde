@@ -33,27 +33,98 @@ void setup() {
   }
 }
 
-void turnZ() {
+void turnZ(int pos, int dir) {
   for (int i = 0; i < cube.length; i++){
-    if (cube[i].z == 1){
+    if (cube[i].z == pos){
       PMatrix2D matrix = new PMatrix2D();
-      matrix.rotate(HALF_PI);
+      matrix.rotate(HALF_PI * dir);
       matrix.translate(cube[i].x,cube[i].y);
-      cube[i].update(round(matrix.m02),round(matrix.m12),round(cube[i].z));
+      cube[i].update(round(matrix.m02),round(matrix.m12),cube[i].z);
+      cube[i].turnFacesZ(dir);
+    }
+  }
+}
+
+void turnY(int pos, int dir) {
+  for (int i = 0; i < cube.length; i++){
+    if (cube[i].y == pos){
+      PMatrix2D matrix = new PMatrix2D();
+      matrix.rotate(HALF_PI * dir);
+      matrix.translate(cube[i].x,cube[i].z);
+      cube[i].update(round(matrix.m02),cube[i].y,round(matrix.m12));
+      cube[i].turnFacesY(dir);
+    }
+  }
+}
+
+void turnX(int pos, int dir) {
+  for (int i = 0; i < cube.length; i++){
+    if (cube[i].x == pos){
+      PMatrix2D matrix = new PMatrix2D();
+      matrix.rotate(HALF_PI * dir);
+      matrix.translate(cube[i].y,cube[i].z);
+      cube[i].update(cube[i].x,round(matrix.m02),round(matrix.m12));
+      cube[i].turnFacesX(dir);
     }
   }
 }
 
 void keyPressed(){
-  if (key == '1'){
-    turnZ();
+  switch (key){
+  case 'f':
+    turnZ(1,1);
+    break;
+  case 'F':
+    turnZ(1,-1);
+    break;
+  case 'b':
+    turnZ(-1,1);
+    break;
+  case 'B':
+    turnZ(-1,-1);
+    break;
+  case 'd':
+    turnY(1,1);
+    break;
+  case 'D':
+    turnY(1,-1);
+    break;
+  case 'u':
+    turnY(-1,1);
+    break;
+  case 'U':
+    turnY(-1,-1);
+    break;
+  case 'l':
+    turnX(-1,1);
+    break;
+  case 'L':
+    turnX(-1,-1);
+    break;
+  case 'r':
+    turnX(1,1);
+    break;
+  case 'R':
+    turnX(1,-1);
+    break;
+  case '1':
+    turnX(0,1);
+    break;
+  case '2':
+    turnX(0,-1);
+    break;
+  case '3':
+    turnY(0,1);
+    break;
+  case '4':
+    turnY(0,-1);
+    break;
   }
 }
 
 void draw() {
   background(51);
   scale(60);
-  cube[2].highlight = true;
   for (int i = 0; i < cube.length; i++){
     cube[i].show();
   }
