@@ -188,7 +188,7 @@ void draw() {
       } else if (turning == "x"){
         turnX1(position, direction);
       }
-      turning = "";
+      turning = "";s
       direction = 0;
     }
   }
