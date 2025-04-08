@@ -9,9 +9,14 @@ Move move;
 String turning = "";
 int direction = 0;
 int position = 0;
+boolean  shuffling = false;
+char posMoves[] = {'f', 'b', 'u', 'd', 'l', 'r', '1', '2', '3', '4', '5', '6'};
+
+Button shuffle = new Button(100, 100, 100, 100, "Shuffle");
+Button exit = new Button(100, 100, 100, 200, "Exit");
 
 void setup() {
-  size(600, 600, P3D);
+  size(1920, 1080, P3D);
   cam = new PeasyCam(this, 400);
   int index = 0;
   for (int x = -1; x <= 1; x++){
@@ -105,8 +110,12 @@ void animate(String axis, int dir, int pos){
 }
 
 void keyPressed(){
+  applyMove(key);
+}
+
+void applyMove(char moves){
   if (move.animating == false){
-    switch (key){
+    switch (moves){
     case 'f':
       turnZ(1,1);
       break;
@@ -155,16 +164,32 @@ void keyPressed(){
     case '4':
       turnY(0,-1);
       break;
+    case '5':
+      turnZ(0,1);
+      break;
+    case '6':
+      turnZ(0,-1);
+      break;
     }
   }
 }
 
 void draw() {
   background(51);
-  scale(60);
-  
+
+  if (shuffling){
+    shuffleCube();
+  }
+
+  cube();
+  hud();
+}
+
+void cube(){
   move.update();
 
+  pushMatrix();
+  scale(60);
   for (int i = 0; i < cube.length; i++){
     push();
     if (turning != ""){
@@ -192,4 +217,35 @@ void draw() {
       direction = 0;
     }
   }
+  popMatrix();
+}
+
+void hud(){
+  cam.beginHUD();
+  hint(DISABLE_DEPTH_TEST);
+
+  resetMatrix();
+
+  shuffle.draw();
+  exit.draw();
+
+  hint(ENABLE_DEPTH_TEST);
+  cam.endHUD();
+}
+
+void mousePressed(){
+  if(shuffle.isClicked()){
+    if (!shuffling){
+      shuffle = new Button(100, 100, 100, 100, "Stop Shuffle");
+    } else {
+      shuffle = new Button(100, 100, 100, 100, "Shuffle");
+    }
+    shuffling = !shuffling;
+  } else if(exit.isClicked()){
+    exit();
+  }
+}
+
+void shuffleCube(){
+  applyMove(posMoves[int(random(posMoves.length))]);
 }
